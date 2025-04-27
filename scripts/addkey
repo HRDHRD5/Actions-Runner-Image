@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# required args:
+# $1 = ssh key to register
+# optional args:
+# $2 = host to save as known host
+# $3 = port to use for ssh (default 22)
+
+if [ $# -lt 1 ]
+then
+    echo "ssh key is a required argument"
+    exit 1
+fi
+key=$1
+
+file=$(openssl rand -hex 20)
+
+mkdir -p ~/.ssh
+echo "$key" > ~/.ssh/$file
+chmod 600 ~/.ssh/$file
+
+# no host specified, not adding to known hosts
+if [ $# -lt 2 ]
+then
+    exit 0
+fi
+
+# if no port is specified set to 22 as default
+if [ $# -lt 3 ]
+then
+    port=22
+else
+    port=$3
+fi
+
+ssh-keyscan -p $port $2 >> ~/.ssh/known_hosts

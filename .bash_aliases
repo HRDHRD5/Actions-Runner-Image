@@ -1,0 +1,1 @@
+alias addkey=/root/scripts/addkey
