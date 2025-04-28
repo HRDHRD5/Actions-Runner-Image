@@ -19,6 +19,9 @@ mkdir -p ~/.ssh
 echo "$key" > ~/.ssh/$file
 chmod 600 ~/.ssh/$file
 
+# writing file to config, so its checked by ssh command
+echo "IdentityFile ~/.ssh/$file" >> ~/.ssh/config
+
 # no host specified, not adding to known hosts
 if [ $# -lt 2 ]
 then
